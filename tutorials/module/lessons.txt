@@ -1,0 +1,58 @@
+1. Getting Started
+  - go mod init example/hello
+    - example/hello should be an actual path like "github.com/[project_name]".
+  - go run .
+    - the command only runs in main package so we must declare a main package.
+    - we can find modules at "pkg.go.dev"
+    - import modules then run "go mod tidy" to add dependencies.
+
+2. Create a Go module
+  - go mod init example.com/greetings
+    - the module path must be a path where we can download from, like a repository.
+  - Hello()
+    - function starting with a capital letter can be exported.
+
+3. Call your code from another module
+  - go mod edit -replace example.com/greetings=../greetings
+    - to replace the path to a local directory if it's not published.
+    - run "go mod tidy" and check go.mod to see it replaced.
+
+4. Return and handle an error
+  - go can return multiple values.
+  - log.SetPrefix("greetings: ")
+    - shows that message before logging the error.
+  - log.SetFlags(0)
+    - disable printing time, source file, and line number.
+  - log.Fatal(err)
+    - print error and exit the program.
+
+5. Return a random greeting
+  - math/rand
+  - rand.Intn(x) generates random number from x range
+  - []string{} to make a dynamic array
+
+6. Return greetings for multiple people
+  - make(map[string]string) to make a hashmap
+
+7. Add a test
+  - import "testing" library and make a function "fuc TestHelloName(t *testing.T) {}"
+  - import "regexp" for regex and make variable "want := regexp.MustCompile(...)" then call "want.MatchString(...)" to see if a string matches want
+  - call "t.Fatalf(...)" to fail the test
+  - append "_test" to a go file name to make a test file (e.g., hello.go, hello_test.go)
+  - run "go test" or "go test -v" for verbose
+  - "go test" will only show failed tests so it's convenient for long tests
+
+8. Compile and install the application
+  This is where I learned to most. By default, go packages and binaries are installed in the $HOME/go directory. The directory will have pkg and bin directories.
+  - go build
+    - compiles the code into an executable and acn run it with "./hello"
+    - it doesn't install the result as a package tho
+  - go list -f '{{.Target}}'
+    - this shows the install path if specified, but since ours is default it'll show the home/go directory
+  - export PATH=$PATH:/path/to/your/install/directory
+    - I spent a lot of time understanding this. The system reads through this "string" and see if it can find the command we just ran. It's in order so it runs the first one. We can see which one by runing "which [command]". We always append a path to an existing path because overwriting the entire path is dangerous an unnecessary. Just exporting in the commandline will temporarily set in for the shell. To make it permanent, we would need to add it to bashrc or bash_profile.
+  - go install
+    - After we install it, we can run it $HOME/go/bin/hello if we don't want to touch path.
+    - If the path has been set properly, we can just run hello and our system shoudl find it.
+
+
