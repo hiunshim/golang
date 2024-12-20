@@ -14,7 +14,6 @@ func WorkerPool(tasks []Task, workerCount int) []error {
 	var wg sync.WaitGroup
 	taskCh := make(chan Task)
 	errCh := make(chan error, len(tasks)) // Buffered to hold all potential errors
-
 	// Start workers
 	for i := 0; i < workerCount; i++ {
 		wg.Add(1)
@@ -27,7 +26,6 @@ func WorkerPool(tasks []Task, workerCount int) []error {
 			}
 		}()
 	}
-
 	// Send tasks to the taskCh
 	go func() {
 		for _, task := range tasks {
@@ -72,3 +70,12 @@ func main() {
 		}
 	}
 }
+
+
+
+
+
+
+
+
+
