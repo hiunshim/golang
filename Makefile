@@ -1,5 +1,5 @@
 # Check if all Go files are formatted
-check:
+check-format:
 	@OUTPUT=$$(gofmt -l .); \
 	if [ -n "$$OUTPUT" ]; then \
 		echo "The following files are not formatted. Run 'make format' to fix them:"; \
